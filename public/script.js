@@ -95,7 +95,8 @@ async function displayResults(artists, searchQuery) {
             html += '<div class="error">Error loading top tracks.</div>';
         }
     } else {
-        // If no exact match, show all results
+        // If no exact match, show message and all results
+        html += '<div class="error">No exact match found. Did you mean one of these artists? Please check the spelling and try again.</div>';
         artists.forEach(artist => {
             html += `
                 <div class="artist-item">
