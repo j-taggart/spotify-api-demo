@@ -1,17 +1,29 @@
 // API configuration
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? '' // Empty string for local development
-    : 'https://spotify-api-demo-backend.onrender.com'; // Replace this with your Render backend URL
+    ? 'http://localhost:3000' // Local development URL
+    : 'https://spotify-api-demo-backend.onrender.com'; // Render backend URL
+
+// Function to handle API responses
+async function handleApiResponse(response) {
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`API request failed: ${response.status} - ${errorText}`);
+    }
+    return response.json();
+}
 
 // Function to search for an artist
 async function searchArtist(artistName) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(artistName)}&type=artist&limit=10`);
-        const data = await response.json();
+        const data = await handleApiResponse(response);
+        if (!data.artists || !data.artists.items) {
+            throw new Error('Invalid response format from server');
+        }
         return data.artists.items;
     } catch (error) {
         console.error('Error searching for artist:', error);
-        throw error;
+        throw new Error('Failed to search for artist. Please try again.');
     }
 }
 
@@ -19,11 +31,14 @@ async function searchArtist(artistName) {
 async function getTopTracks(artistId) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/artist-top-tracks/${artistId}`);
-        const tracks = await response.json();
+        const tracks = await handleApiResponse(response);
+        if (!Array.isArray(tracks)) {
+            throw new Error('Invalid response format from server');
+        }
         return tracks;
     } catch (error) {
         console.error('Error fetching top tracks:', error);
-        throw error;
+        throw new Error('Failed to fetch top tracks. Please try again.');
     }
 }
 
@@ -107,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const artists = await searchArtist(artistName);
                 await displayResults(artists, artistName);
             } catch (error) {
-                resultContainer.innerHTML = 'Error: Could not complete the search. Please try again.';
+                resultContainer.innerHTML = `Error: ${error.message}`;
             }
         } else {
             resultContainer.innerHTML = 'Please enter an artist name.';
