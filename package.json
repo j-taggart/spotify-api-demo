@@ -18,9 +18,13 @@
   },
   "homepage": "https://github.com/j-taggart/spotify-api-demo#readme",
   "description": "",
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "cors": "^2.8.5"
   }
 }

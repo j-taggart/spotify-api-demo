@@ -2,14 +2,27 @@ const express = require('express');
 const dotenv = require('dotenv');
 const fetch = require('node-fetch');
 const path = require('path');
+const cors = require('cors');
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Enable CORS for GitHub Pages
+app.use(cors({
+    origin: ['https://j-taggart.github.io', 'http://localhost:3000'],
+    methods: ['GET', 'POST'],
+    credentials: true
+}));
+
 app.use(express.static('public'));
 app.use(express.json());
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.json({ status: 'ok' });
+});
 
 // Spotify API endpoints
 const SPOTIFY_TOKEN_URL = 'https://accounts.spotify.com/api/token';

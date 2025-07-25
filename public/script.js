@@ -1,7 +1,12 @@
+// API configuration
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? '' // Empty string for local development
+    : 'YOUR_RENDER_URL_HERE'; // Replace this with your Render backend URL
+
 // Function to search for an artist
 async function searchArtist(artistName) {
     try {
-        const response = await fetch(`/api/search?q=${encodeURIComponent(artistName)}&type=artist&limit=10`);
+        const response = await fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(artistName)}&type=artist&limit=10`);
         const data = await response.json();
         return data.artists.items;
     } catch (error) {
@@ -13,7 +18,7 @@ async function searchArtist(artistName) {
 // Function to get artist's top tracks
 async function getTopTracks(artistId) {
     try {
-        const response = await fetch(`/api/artist-top-tracks/${artistId}`);
+        const response = await fetch(`${API_BASE_URL}/api/artist-top-tracks/${artistId}`);
         const tracks = await response.json();
         return tracks;
     } catch (error) {
