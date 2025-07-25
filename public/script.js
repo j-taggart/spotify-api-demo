@@ -1,7 +1,7 @@
 // API configuration
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? '' // Empty string for local development
-    : 'YOUR_RENDER_URL_HERE'; // Replace this with your Render backend URL
+    : 'https://spotify-api-demo-backend.onrender.com'; // Replace this with your Render backend URL
 
 // Function to search for an artist
 async function searchArtist(artistName) {
