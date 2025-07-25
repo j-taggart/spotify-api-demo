@@ -34,3 +34,5 @@ yarn-error.log*
 # Backup files
 *.backup
 backup_before_retro_hits/
+
+# API credentials

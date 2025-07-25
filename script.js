@@ -1,4 +1,7 @@
-// Spotify API credentials
+// ===================================
+// SPOTIFY API CREDENTIALS
+// Replace these with your own credentials
+// ===================================
 const clientId = '52a138d0240e4d7eb273c4f4b9f2c65e';
 const clientSecret = '98c3e1815bd14cd3b3a6327e12431719';
 
